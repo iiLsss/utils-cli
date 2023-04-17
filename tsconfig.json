@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2015", "DOM"],
+    "module": "ESNext",
+    "strict": true,
+    "target": "ES5",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true, 
+    "declarationDir": "dist"
+  },
+  "include": [
+    "./src",
+    "index.ts"
+  ],
+  "exclude": [
+    "node_modules", 
+    "lib", 
+    "es"
+  ]
+}

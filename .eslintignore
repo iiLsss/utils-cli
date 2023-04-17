@@ -1,0 +1,9 @@
+/dist
+/lib
+/es
+
+/docs
+/test
+/script
+
+gulpfile.js
