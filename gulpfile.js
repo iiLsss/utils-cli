@@ -16,7 +16,24 @@ const tsConfig = {
   allowSyntheticDefaultImports: true,
   ...compilerOptions,
 }
-const babelConfig = require('./babel.config')
+
+function getBabelConfig(modules) {
+  return  {
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            browsers: '> 0.5%, last 2 versions, ie >= 11',
+            node: 'current',
+          },
+          modules
+        },
+      ],
+      '@babel/preset-typescript',
+    ],
+  }
+}
 
 const source = [
   'src/**/*.ts',
@@ -35,7 +52,7 @@ gulp.task('compile-with-es', (done) => {
 
 gulp.task('compile-with-lib', (done) => {
   console.log('Compile to js...')
-  compile(true).on('finish', done)
+  compile().on('finish', done)
 })
 gulp.task('compile', gulp.parallel( 'compile-with-lib', 'compile-with-es'))
 
@@ -46,9 +63,9 @@ function compile(modules) {
   const { js, dts } = gulp.src(source, { base }).pipe(ts(tsConfig))
   const dtsFilesStream = dts.pipe(gulp.dest(targetDir))
   let jsFilesStream = js
-  if (modules) {
-    jsFilesStream = js.pipe(babel(babelConfig))
-  }
+  // if (modules) {
+    jsFilesStream = js.pipe(babel(getBabelConfig(modules)))
+  // }
   jsFilesStream = jsFilesStream.pipe(gulp.dest(targetDir))
   return merge2([jsFilesStream, dtsFilesStream])
 }
