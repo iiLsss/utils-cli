@@ -62,10 +62,7 @@ function compile(modules) {
   rimraf.sync(targetDir)
   const { js, dts } = gulp.src(source, { base }).pipe(ts(tsConfig))
   const dtsFilesStream = dts.pipe(gulp.dest(targetDir))
-  let jsFilesStream = js
-  // if (modules) {
-    jsFilesStream = js.pipe(babel(getBabelConfig(modules)))
-  // }
+  let jsFilesStream = js.pipe(babel(getBabelConfig(modules)))
   jsFilesStream = jsFilesStream.pipe(gulp.dest(targetDir))
   return merge2([jsFilesStream, dtsFilesStream])
 }
